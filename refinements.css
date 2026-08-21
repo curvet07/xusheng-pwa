@@ -192,6 +192,10 @@
 .page-archive-system .empty-state { color:#626463;border-color:#bfc0bd; }
 .page-archive-system .empty-state strong { color:#111214; }
 
+.page-archive-system .archive-page { min-height:calc(100svh - 76px - 96px - var(--safe-bottom));display:flex;flex-direction:column; }
+.page-archive-system .side-archive .side-log { flex:1;display:flex;flex-direction:column; }
+.page-archive-system .side-archive .side-log .empty-state { flex:1;display:grid;place-content:center;min-height:260px;border-bottom:0; }
+
 .achievement-archive .featured-achievement { margin:24px 0;background:#e8f300;color:#111214;padding:22px; }
 .achievement-archive .achievement-item { border-color:#bfc0bd; }
 .achievement-archive .badge-mark { border-color:#777977;color:#555756; }
