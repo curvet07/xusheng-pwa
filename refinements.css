@@ -59,7 +59,7 @@
 .page-home .app-shell::before,.page-home .topbar { display:none; }
 .page-home main { padding:0 0 calc(74px + var(--safe-bottom)); }
 .page-home .page[data-page="home"] { max-width:none; }
-.home-poster { height:calc(100svh - 74px - var(--safe-bottom)); min-height:700px; overflow:hidden; color:#111214; }
+.home-poster { height:calc(100dvh - 74px); min-height:680px; overflow:hidden; color:#111214; }
 .home-paper { --signal:#e8f300; position:relative; height:100%; max-width:520px; margin:0 auto; overflow:hidden; background:#ececeb; isolation:isolate; }
 .home-paper::before { content:"";position:absolute;inset:0;z-index:-2;opacity:.38;background:radial-gradient(ellipse at 62% 13%,transparent 0 17%,rgba(20,22,22,.09) 17.2% 17.5%,transparent 17.7% 20%,rgba(20,22,22,.065) 20.2% 20.5%,transparent 20.7% 24%,rgba(20,22,22,.05) 24.2% 24.45%,transparent 24.7%),linear-gradient(118deg,transparent 0 74%,rgba(16,17,18,.11) 74.2% 74.35%,transparent 74.6%); }
 .home-paper::after { content:"";position:absolute;z-index:-1;right:-58px;top:-76px;width:180px;height:280px;background:#121415;clip-path:polygon(28% 0,100% 0,100% 100%,0 68%,0 20%); }
