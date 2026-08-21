@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+  <title>序升 · Live2D 分层验证</title>
+  <style>
+    :root { color-scheme: dark; }
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    html, body { width: 100%; height: 100%; margin: 0; overflow: hidden; background: #080b0c; }
+    body { display: grid; place-items: center; font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif; }
+    .stage { position: relative; width: min(100vw, 430px); aspect-ratio: 2 / 3; overflow: hidden; background: radial-gradient(circle at 54% 24%, rgba(174,20,30,.14), transparent 30%), linear-gradient(145deg,#111719 0%,#07090a 62%); isolation: isolate; cursor: pointer; touch-action: manipulation; user-select: none; -webkit-user-select: none; outline: none; }
+    .stage::before { content: ""; position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px); background-size: 100% 8px; z-index: 5; pointer-events: none; }
+    .layer { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; pointer-events: none; user-select: none; -webkit-user-drag: none; }
+    .rig-wrap { position: absolute; inset: 0; z-index: 2; transform-origin: 51% 86%; animation: breathe 4.8s ease-in-out infinite; }
+    .body-wrap,.head-wrap,.collar-wrap { position: absolute; inset: 0; }
+    .head-wrap { transform-origin: 50% 22.6%; animation: head-idle 6.4s ease-in-out infinite; }
+    .ear { will-change: transform; }
+    .ear-left { transform-origin: 43.3% 12.4%; }
+    .ear-right { transform-origin: 57.7% 12.4%; }
+    .ear-left.is-twitching { animation: ear-left-twitch 360ms ease-in-out; }
+    .ear-right.is-twitching { animation: ear-right-twitch 360ms ease-in-out; }
+    .half-blink,.closed-blink { visibility: hidden; }
+    .half-blink.is-visible,.closed-blink.is-visible { visibility: visible; }
+    .hud { position: absolute; left: 22px; right: 22px; bottom: 24px; z-index: 8; display: flex; justify-content: space-between; color: #d8dedc; font-size: 11px; letter-spacing: .16em; text-transform: uppercase; }
+    .hud span:last-child { color: #d14a53; }
+    .signal { position: absolute; inset: 8% 8% 13%; z-index: 1; border: 0; border-radius: 50%; pointer-events: none; opacity: 0; background: radial-gradient(circle at 52% 30%, rgba(209,74,83,.22), rgba(209,74,83,.06) 35%, transparent 68%); }
+    .stage.is-acknowledged .signal { animation: signal-ack 780ms ease-out; }
+    .stage.is-acknowledged .hud span:last-child { color: #f0c2c6; text-shadow: 0 0 12px rgba(209,74,83,.8); }
+    @keyframes breathe { 0%,100% { transform: translateY(0) scaleY(1); } 50% { transform: translateY(-2px) scaleY(1.003); } }
+    @keyframes head-idle { 0%,100% { transform: rotate(0deg); } 36% { transform: rotate(-.18deg); } 72% { transform: rotate(.14deg); } }
+    @keyframes ear-left-twitch { 0%,100% { transform: rotate(0); } 28% { transform: rotate(-1.8deg); } 58% { transform: rotate(.7deg); } }
+    @keyframes ear-right-twitch { 0%,100% { transform: rotate(0); } 28% { transform: rotate(1.8deg); } 58% { transform: rotate(-.7deg); } }
+    @keyframes signal-ack { 0% { transform: scale(.88); opacity: 0; } 22% { opacity: 1; } 100% { transform: scale(1.06); opacity: 0; } }
+    @media (prefers-reduced-motion: reduce) { .rig-wrap,.head-wrap { animation: none; } }
+  </style>
+</head>
+<body>
+  <main class="stage" aria-label="角色 Live2D 分层动态验证">
+    <div class="rig-wrap">
+      <div class="body-wrap"><img class="layer" src="body_master_aligned.png?v=2" alt=""></div>
+      <div class="body-wrap"><img class="layer" src="neck_body_aligned.png?v=2" alt=""></div>
+      <div class="head-wrap">
+        <img class="layer ear ear-left" src="wolf_ear_left_aligned.png?v=5" alt="" draggable="false">
+        <img class="layer ear ear-right" src="wolf_ear_right_aligned.png?v=5" alt="" draggable="false">
+        <img class="layer" src="cranium_earless_aligned.png?v=5" alt="" draggable="false">
+        <img class="layer half-blink" src="eyes_halfblink_patch.png?v=6" alt="" draggable="false">
+        <img class="layer closed-blink" src="eyes_closed_patch.png?v=6" alt="" draggable="false">
+      </div>
+      <div class="collar-wrap"><img class="layer" src="collar_foreground_aligned.png?v=2" alt=""></div>
+    </div>
+    <div class="signal" aria-hidden="true"></div>
+    <div class="hud"><span>Layer sync / stable</span><span class="status-text">Touch response 03</span></div>
+  </main>
+  <script>
+    const halfBlink = document.querySelector('.half-blink');
+    const closedBlink = document.querySelector('.closed-blink');
+    const ears = [...document.querySelectorAll('.ear')];
+    const stage = document.querySelector('.stage');
+    const statusText = document.querySelector('.status-text');
+    const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
+    let blinkRunning = false;
+
+    async function blink() {
+      if (blinkRunning) return;
+      blinkRunning = true;
+      halfBlink.classList.add('is-visible');
+      await wait(58);
+      halfBlink.classList.remove('is-visible');
+      closedBlink.classList.add('is-visible');
+      await wait(72);
+      closedBlink.classList.remove('is-visible');
+      halfBlink.classList.add('is-visible');
+      await wait(62);
+      halfBlink.classList.remove('is-visible');
+      blinkRunning = false;
+    }
+
+    async function blinkLoop() {
+      while (!reducedMotion) {
+        await wait(3500 + Math.random() * 4000);
+        await blink();
+        if (Math.random() < .16) {
+          await wait(125 + Math.random() * 90);
+          await blink();
+        }
+      }
+    }
+
+    blinkLoop();
+
+    async function earLoop() {
+      while (!reducedMotion) {
+        await wait(4800 + Math.random() * 7000);
+        const ear = ears[Math.floor(Math.random() * ears.length)];
+        ear.classList.add('is-twitching');
+        await wait(380);
+        ear.classList.remove('is-twitching');
+      }
+    }
+
+    earLoop();
+
+    let reactionLocked = false;
+    stage.addEventListener('pointerup', async () => {
+      if (reactionLocked || reducedMotion) return;
+      reactionLocked = true;
+      stage.classList.add('is-acknowledged');
+      statusText.textContent = 'Signal acknowledged';
+      if (Math.random() < .22) await blink();
+      const firstEar = ears[Math.floor(Math.random() * ears.length)];
+      firstEar.classList.add('is-twitching');
+      await wait(420);
+      ears.forEach(ear => ear.classList.remove('is-twitching'));
+      await wait(300);
+      stage.classList.remove('is-acknowledged');
+      statusText.textContent = 'Touch response 03';
+      reactionLocked = false;
+    });
+  </script>
+</body>
+</html>

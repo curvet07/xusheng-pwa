@@ -1,0 +1,17 @@
+{
+  "name":"序升 · 个人生活工作台",
+  "short_name":"序升",
+  "description":"把每一次自我成长行动，结算为角色经验。",
+  "start_url":"./",
+  "scope":"./",
+  "display":"standalone",
+  "orientation":"portrait",
+  "background_color":"#080c0f",
+  "theme_color":"#080c0f",
+  "lang":"zh-CN",
+  "icons":[
+    {"src":"icons/icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"},
+    {"src":"icons/icon-192.png","type":"image/png","sizes":"192x192"},
+    {"src":"icons/icon-512.png","type":"image/png","sizes":"512x512"}
+  ]
+}

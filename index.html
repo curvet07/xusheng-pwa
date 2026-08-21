@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+  <meta name="theme-color" content="#080c0f">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="序升">
+  <meta name="format-detection" content="telephone=no">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="icons/icon-512.png">
+  <link rel="stylesheet" href="styles.css?v=27">
+  <link rel="stylesheet" href="refinements.css?v=31">
+  <title>序升 · 个人生活工作台</title>
+  <script>
+    if (location.search.includes('desktop=1')) {
+      document.documentElement.classList.add('desktop-preview');
+    }
+    if (location.search.includes('poster=1')) {
+      document.documentElement.classList.add('poster-mode');
+    }
+  </script>
+</head>
+<body class="page-home">
+  <!--
+    THESIS: 每次微小行动都汇入同一个角色；拒绝普通清单与卡片仪表盘。
+    OWN-WORLD: 冷黑角色舱、能量青轨迹、信号黄奖励、切角行动单元与精密刻度。
+    STORY: 用户先同步今日状态，再确认行动，并看到经验、属性与长期成长即时变化。
+    FIRST VIEWPORT: 顶部身份状态、中央等级能量核心、下方今日主线；主要动作在拇指区任务行。
+    FORM: 私人角色终端，用户简报明确锁定的科幻 HUD 方向；seed-key: USER-PINNED-SEQUENCE-CORE。
+    FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, and DESIGN.md
+  -->
+  <div class="app-shell">
+    <div class="boot" id="boot" aria-hidden="true">
+      <div class="boot-mark"><span></span><strong>序升</strong></div>
+      <p>正在同步角色状态</p>
+      <div class="boot-line"><i></i></div>
+    </div>
+
+    <header class="topbar">
+      <button class="identity" data-page-target="profile" aria-label="打开我的角色">
+        <span class="avatar">S</span>
+        <span><b>序升者</b><small id="header-title">行动面板</small></span>
+      </button>
+      <div class="sync-state"><i></i><span>本地同步</span></div>
+    </header>
+
+    <main id="app-main">
+      <section class="page home-poster is-active" data-page="home" aria-labelledby="home-title">
+        <div class="home-paper">
+          <header class="home-brand">
+            <h1 id="home-title">序升</h1>
+            <p id="date-label"></p>
+          </header>
+
+          <div class="home-status-copy">
+            <h2>今日状态</h2>
+            <strong><i></i>稳定</strong>
+          </div>
+
+          <div class="character-stage" id="level-core" aria-label="序升者角色与等级状态">
+            <div class="character-scan" aria-hidden="true"></div>
+            <div class="home-sync-gauge"><span>PERSONAL PROGRESS</span><strong id="today-percent">0%</strong><i><b id="home-sync-fill"></b></i></div>
+            <div class="character-level"><small>LV.</small><strong id="level-value">01</strong><i><b id="core-progress"></b></i><span id="xp-value">0 / 300 XP</span></div>
+            <div class="character-rig" aria-hidden="true">
+              <img class="character-layer character-full-body" src="assets/live2d/body_full_v3.png?v=2" alt="" draggable="false">
+              <img class="character-layer" src="assets/live2d/body_master_aligned.png" alt="" draggable="false">
+              <img class="character-layer character-neck-layer" src="assets/live2d/neck_body_clean_v2.png?v=25" alt="" draggable="false">
+              <div class="character-head">
+                <img class="character-layer character-ear character-ear-left" src="assets/live2d/wolf_ear_left_aligned.png" alt="" draggable="false">
+                <img class="character-layer character-ear character-ear-right" src="assets/live2d/wolf_ear_right_aligned.png" alt="" draggable="false">
+                <img class="character-layer character-cranium-refined" src="assets/live2d/cranium_earless_refined_v2.png?v=25" alt="" draggable="false">
+                <img class="character-layer character-half-blink character-expression-refined" src="assets/live2d/cranium_halfblink_refined_v1.png" alt="" draggable="false">
+                <img class="character-layer character-closed-blink character-expression-refined" src="assets/live2d/cranium_closed_refined_v1.png" alt="" draggable="false">
+              </div>
+              <img class="character-layer" src="assets/live2d/collar_foreground_aligned.png" alt="" draggable="false">
+            </div>
+            <div class="character-reward-glow" aria-hidden="true"></div>
+            <b id="character-sync" class="visually-hidden">同步 0%</b>
+          </div>
+
+          <button class="home-action-panel boss-card-home" id="home-boss-entry" type="button" aria-label="查看当前讨伐">
+            <span class="boss-entry-copy">
+              <small>当前讨伐 / BODY RECOMPOSITION</small>
+              <strong>脂域核心 · 15</strong>
+              <em>把 15 斤拆成 15 个可见关卡</em>
+            </span>
+            <span class="boss-entry-progress">
+              <b id="home-boss-value">0</b><i>/15 斤</i>
+              <u><s id="home-boss-fill"></s></u>
+            </span>
+          </button>
+
+          <div class="home-data-shadow" aria-hidden="true">
+            <strong id="streak-value">0</strong>
+            <div id="home-attributes"></div>
+            <p id="daily-note"></p>
+          </div>
+        </div>
+      </section>
+
+      <section class="page archive-page main-archive" data-page="main" aria-labelledby="main-title">
+        <div class="page-intro main-intro">
+          <div><h1 id="main-title">主线任务</h1></div>
+          <div class="main-intro-actions"><div class="fraction"><strong id="task-complete-count">0</strong><span id="task-total-count">/ 0</span></div><button class="add-button" id="open-task-form" aria-label="添加主线任务">+</button></div>
+        </div>
+        <div class="mission-progress"><i id="mission-progress-bar"></i></div>
+        <p class="main-rule-copy">任务经验由行动强度决定；每天每项只结算一次。</p>
+        <div class="task-groups" id="task-groups"></div>
+      </section>
+
+      <section class="page archive-page side-archive" data-page="side" aria-labelledby="side-title">
+        <div class="page-intro side-intro">
+          <div><h1 id="side-title">支线任务</h1></div>
+          <button class="add-button" id="open-side-form" aria-label="添加支线记录">+</button>
+        </div>
+        <p class="intro-copy">这里没有逾期。记录一本书、一部电影，或一次让你变得更好的探索。</p>
+        <div class="side-categories" id="side-categories"></div>
+        <div class="section-head compact"><h2>最近记录</h2><span id="side-count">0 条探索</span></div>
+        <div class="side-log" id="side-log"></div>
+      </section>
+
+      <section class="page archive-page achievement-archive" data-page="achievements" aria-labelledby="achievements-title">
+        <div class="page-intro">
+          <div><h1 id="achievements-title">成就中心</h1></div>
+          <div class="fraction"><strong id="badge-count">0</strong><span>枚徽章</span></div>
+        </div>
+        <button class="boss-entry" id="open-boss" type="button">
+          <span class="boss-entry-copy"><small>当前讨伐 / BODY RECOMPOSITION</small><strong>脂域核心 · 15</strong><em>把 15 斤拆成 15 个可见关卡</em></span>
+          <span class="boss-entry-progress"><b id="boss-entry-value">0</b><i>/15 斤</i><u><s id="boss-entry-fill"></s></u></span>
+        </button>
+        <div class="featured-achievement" id="featured-achievement"></div>
+        <div class="section-head compact"><h2>成长里程碑</h2><span>持续更新</span></div>
+        <div class="achievement-list" id="achievement-list"></div>
+        <div class="reward-track">
+          <div class="section-head compact"><h2>现实奖励协议</h2><span>由你兑现</span></div>
+          <div id="reward-list"></div>
+        </div>
+      </section>
+
+      <section class="page archive-page boss-archive" data-page="boss" aria-labelledby="boss-title">
+        <div class="boss-topline"><button id="close-boss" type="button" aria-label="返回成就中心">←</button><span>返回成就中心</span><b>目标讨伐</b></div>
+        <header class="boss-hero">
+          <div class="boss-sigil" aria-hidden="true"><i></i><b>15</b><span>CORE</span></div>
+          <div class="boss-hero-copy"><h1 id="boss-title">脂域核心</h1><p>目标：减脂 15 斤</p><strong id="boss-phase-label">第一阶段 · 启动</strong></div>
+          <div class="boss-hp"><span>目标剩余</span><strong><b id="boss-remaining">15.0</b> 斤</strong><i><u id="boss-hp-fill"></u></i></div>
+        </header>
+        <section class="boss-shield" aria-labelledby="shield-title">
+          <div><h2 id="shield-title">本周行动护盾</h2><span id="boss-shield-text">0 / 60</span></div>
+          <p>完成标记为“支援讨伐”的主线，逐步击穿本周护盾。</p>
+          <i><b id="boss-shield-fill"></b></i>
+        </section>
+        <section class="boss-checkpoint-section">
+          <div class="section-head compact"><h2>15 段核心节点</h2><span id="boss-best-label">最佳 0.0 斤</span></div>
+          <div class="boss-checkpoints" id="boss-checkpoints"></div>
+          <div class="boss-phase-rewards"><span>5 斤 · +150 XP</span><span>10 斤 · +250 XP</span><span>15 斤 · +500 XP</span></div>
+        </section>
+        <section class="boss-record-panel">
+          <div><span>当前记录</span><strong><b id="boss-current-value">0.0</b> 斤</strong><small>进度回升不会扣除已获得经验与徽章</small></div>
+          <button id="open-boss-record" type="button">记录进度</button>
+        </section>
+        <section class="boss-log-section"><div class="section-head compact"><h2>讨伐日志</h2><span>每周前 3 次记录 +5 XP</span></div><div id="boss-log"></div></section>
+      </section>
+
+      <section class="page archive-page profile-archive" data-page="profile" aria-labelledby="profile-title">
+        <div class="profile-character-stage">
+          <header class="profile-identity">
+            <h1 id="profile-title">我的角色</h1>
+            <button class="title-chip" id="title-chip">初醒者</button>
+          </header>
+          <div class="profile-character-rig" aria-hidden="true">
+            <img class="profile-character-integrated" src="assets/live2d/profile_character_integrated_v2.png" alt="" draggable="false">
+          </div>
+          <div class="profile-attribute-hud" id="profile-attributes" aria-label="角色四维属性"></div>
+          <div class="profile-level"><strong id="profile-level">LV.01</strong><span id="profile-total-xp">累计 0 XP</span></div>
+          <div class="profile-stage-mark">FULL BODY / GROWTH LOADOUT</div>
+        </div>
+        <div class="profile-data-deck">
+          <div class="weight-module">
+            <div class="weight-copy"><span>减脂主目标</span><strong><i id="weight-lost">0</i> / 15 斤</strong></div>
+            <div class="weight-track"><i id="weight-progress"></i></div>
+            <button id="edit-weight">更新进度</button>
+          </div>
+          <div class="stats-grid" id="stats-grid"></div>
+          <button class="backup-button" id="export-data">导出数据备份</button>
+          <button class="backup-button" id="import-data">导入数据备份</button>
+          <input type="file" id="import-file" accept="application/json" hidden>
+          <button class="report-button" id="monthly-report"><span>生成本月成长报告</span><small>月度结算将在后续版本完善</small></button>
+          <button class="reset-button" id="reset-data">重置演示数据</button>
+        </div>
+      </section>
+    </main>
+
+    <nav class="bottom-nav" aria-label="主要导航">
+      <button class="is-active" data-page-target="home"><svg viewBox="0 0 24 24"><path d="M4 10.5 12 4l8 6.5V20h-5v-6H9v6H4z"/></svg><span>首页</span></button>
+      <button data-page-target="main"><svg viewBox="0 0 24 24"><path d="M5 4h14v16H5zM8 9h8M8 13h5"/></svg><span>主线</span></button>
+      <button data-page-target="side"><svg viewBox="0 0 24 24"><path d="M12 3v18M3 12h18M6 6l12 12M18 6 6 18"/></svg><span>支线</span></button>
+      <button data-page-target="achievements"><svg viewBox="0 0 24 24"><path d="M8 4h8v5a4 4 0 0 1-8 0zM6 6H3v2a4 4 0 0 0 5 4M18 6h3v2a4 4 0 0 1-5 4M12 13v4M8 20h8"/></svg><span>成就</span></button>
+      <button data-page-target="profile"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><span>角色</span></button>
+    </nav>
+  </div>
+
+  <dialog id="side-dialog">
+    <form method="dialog" id="side-form">
+      <div class="dialog-head"><div><h2>支线结算</h2></div><button value="cancel" aria-label="关闭">×</button></div>
+      <label>类型<select id="side-type"><option value="reading">阅读</option><option value="movie">观影</option><option value="learning">学习</option></select></label>
+      <label>记录内容<input id="side-title-input" maxlength="40" placeholder="例如：读完《置身事内》一章" required></label>
+      <label>一句感想<textarea id="side-note-input" maxlength="100" placeholder="这一刻，你留下些什么？"></textarea></label>
+      <button class="primary-action" value="default" type="submit">完成记录 · +25 XP</button>
+    </form>
+  </dialog>
+
+  <dialog id="task-dialog">
+    <form method="dialog" id="task-form">
+      <input type="hidden" id="task-id-input">
+      <div class="dialog-head"><div><h2 id="task-dialog-title">新增主线</h2></div><button value="cancel" aria-label="关闭">×</button></div>
+      <label>任务名称<input id="task-title-input" maxlength="24" placeholder="例如：健身单车" required></label>
+      <label>行动说明<input id="task-detail-input" maxlength="40" placeholder="例如：完成 30 分钟有氧"></label>
+      <div class="form-split">
+        <label>对应属性<select id="task-attr-input"><option value="strength">力量</option><option value="vitality">生命</option><option value="charm">魅力</option></select></label>
+        <label>行动强度<select id="task-tier-input"><option value="micro">微行动 · 10 XP</option><option value="standard">标准 · 20 XP</option><option value="training">训练 · 40 XP</option><option value="challenge">挑战 · 60 XP</option></select></label>
+      </div>
+      <label class="check-label"><input id="task-boss-input" type="checkbox"><span>支援当前讨伐（计入本周行动护盾）</span></label>
+      <button class="primary-action" value="default" type="submit">保存主线</button>
+      <button class="task-disable-action" id="task-disable" value="cancel" type="button" hidden>停用这项任务</button>
+    </form>
+  </dialog>
+
+  <dialog id="weight-dialog">
+    <form method="dialog" id="weight-form">
+      <div class="dialog-head"><div><h2>更新减脂进度</h2></div><button value="cancel" aria-label="关闭">×</button></div>
+      <label>已减重量（斤）<input id="weight-input" type="number" min="0" max="15" step="0.1" inputmode="decimal"></label>
+      <button class="primary-action" value="default" type="submit">保存进度</button>
+    </form>
+  </dialog>
+
+  <dialog id="boss-record-dialog">
+    <form method="dialog" id="boss-record-form">
+      <div class="dialog-head"><div><h2>记录讨伐进度</h2></div><button value="cancel" aria-label="关闭">×</button></div>
+      <label>目前累计已减（斤）<input id="boss-record-input" type="number" min="0" max="15" step="0.1" inputmode="decimal" required></label>
+      <p class="dialog-rule">每跨过完整 1 斤节点获得 50 XP；5 / 10 / 15 斤另有阶段奖励。进度波动不会收回奖励。</p>
+      <button class="primary-action" value="default" type="submit">确认本次记录</button>
+    </form>
+  </dialog>
+
+  <div class="xp-toast" id="xp-toast" role="status" aria-live="polite"></div>
+  <div class="level-up" id="level-up" aria-hidden="true"><div><span>LEVEL UP</span><strong id="new-level">02</strong><p>新的角色阶段已解锁</p></div></div>
+  <script src="app.js?v=21"></script>
+  <script>setTimeout(()=>document.querySelector('#boot')?.classList.add('is-hidden'),2500)</script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>狼卫 Live2D 图层组装预览</title>
+  <style>
+    :root{color-scheme:dark;background:#111310;color:#eef0ec;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC",sans-serif}
+    *{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;grid-template-columns:minmax(320px,1fr) 290px;background:#111310}
+    .stage-wrap{display:grid;place-items:center;min-height:100vh;padding:24px;background:radial-gradient(circle at 50% 35%,#32352f,#171916 62%)}
+    .stage{position:relative;width:min(66.666vh,calc(100vw - 360px));aspect-ratio:2/3;overflow:hidden;background:#d9dbd6;box-shadow:0 20px 80px rgba(0,0,0,.55)}
+    .master{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;z-index:200;pointer-events:none}
+    .stage.compare .master{opacity:.42;mix-blend-mode:multiply}
+    .layer{position:absolute;object-fit:contain;pointer-events:none;transform-origin:center}
+    .tail-base{z-index:10;width:19%;left:64%;top:46%;transform:rotate(-24deg)}.tail-mid{z-index:11;width:23%;left:70%;top:51%;transform:rotate(6deg)}.tail-tip{z-index:12;width:17%;left:79%;top:65%;transform:rotate(15deg)}
+    .cloak-rear-upper{z-index:20;width:47%;left:48%;top:20%}.cloak-rear-lower{z-index:21;width:34%;left:64%;top:37%}
+    .hair-back{z-index:30;width:37%;left:31.5%;top:1.8%}
+    .torso{z-index:40;width:48%;left:27%;top:28%}.neck{z-index:41;width:19%;left:41%;top:20%}
+    .upper-l{z-index:50;width:22%;left:12%;top:31%}.upper-r{z-index:50;width:22%;left:66%;top:31%}.guard-l{z-index:51;width:12%;left:12%;top:54%}.guard-r{z-index:51;width:12%;left:76%;top:54%}.glove-l{z-index:52;width:12%;left:9%;top:68%}.glove-r{z-index:52;width:12%;left:79%;top:68%}
+    .face{z-index:60;width:28%;left:36%;top:5.5%}.eye-white-l{z-index:70;width:6%;left:42%;top:18.2%}.eye-white-r{z-index:70;width:6%;left:52%;top:18.2%}.iris-l{z-index:71;width:2.5%;left:44%;top:18.7%}.iris-r{z-index:71;width:2.5%;left:53.5%;top:18.7%}.lid-l{z-index:73;width:6.2%;left:42%;top:17.9%}.lid-r{z-index:73;width:6.2%;left:51.8%;top:17.9%}.brow-l{z-index:74;width:7%;left:41%;top:15.9%}.brow-r{z-index:74;width:7%;left:52%;top:15.9%}.mouth{z-index:74;width:7%;left:46.5%;top:24.6%}
+    .ear-ol{z-index:75;width:9%;left:31%;top:2.6%;transform:rotate(-8deg)}.ear-il{z-index:76;width:5%;left:33.1%;top:4%;transform:rotate(-8deg)}.ear-or{z-index:75;width:9%;left:60%;top:2.6%;transform:rotate(8deg)}.ear-ir{z-index:76;width:5%;left:62%;top:4%;transform:rotate(8deg)}.hair-front{z-index:80;width:35%;left:32.5%;top:4%}
+    .shoulder-ol{z-index:90;width:23%;left:20%;top:28%}.shoulder-bl{z-index:89;width:19%;left:22%;top:34%}.shoulder-r{z-index:89;width:17%;left:62%;top:31%}.straps{z-index:91;width:29%;left:38%;top:30%}.metal{z-index:92;width:17%;left:40%;top:35%}.belt{z-index:91;width:32%;left:34%;top:58%}.hip-l{z-index:92;width:20%;left:27%;top:62%}.hip-r{z-index:92;width:15%;left:58%;top:62%}
+    .cloak-front{z-index:100;width:34%;left:63%;top:26%}.coat-l{z-index:45;width:22%;left:29%;top:58%}.coat-r{z-index:45;width:22%;left:51%;top:58%}
+    aside{padding:24px 20px;border-left:1px solid rgba(255,255,255,.1);overflow:auto}h1{font-size:18px;margin:0 0 6px}p{font-size:11px;line-height:1.6;color:#aeb4ad;margin:0 0 22px}.actions{display:grid;gap:8px;margin-bottom:22px}button{min-height:42px;border:1px solid #555b53;background:#1c1f1b;color:#eef0ec;text-align:left;padding:0 13px}button.active{background:#dfff00;color:#111310;border-color:#dfff00}.group{padding:13px 0;border-top:1px solid rgba(255,255,255,.1)}.group label{display:flex;align-items:center;justify-content:space-between;font-size:12px}.group small{display:block;margin-top:5px;color:#777e77;font-size:9px}.verdict{margin-top:22px;padding:14px;background:#242822;border-left:2px solid #dfff00;font-size:10px;line-height:1.6;color:#cdd2cb}
+    @media(max-width:760px){body{grid-template-columns:1fr}.stage-wrap{min-height:auto;padding:12px}.stage{width:min(100%,56vh)}aside{border:0;border-top:1px solid rgba(255,255,255,.1)}}
+  </style>
+</head>
+<body>
+  <main class="stage-wrap"><div class="stage" id="stage">
+    <img class="layer tail-base" data-group="tail" src="layers/cloak_tail/tail_base.png"><img class="layer tail-mid" data-group="tail" src="layers/cloak_tail/tail_middle.png"><img class="layer tail-tip" data-group="tail" src="layers/cloak_tail/tail_tip.png">
+    <img class="layer cloak-rear-upper" data-group="cloak" src="layers/cloak_tail/cloak_rear_upper.png"><img class="layer cloak-rear-lower" data-group="cloak" src="layers/cloak_tail/cloak_rear_lower.png">
+    <img class="layer hair-back" data-group="head" src="layers/hair_ears/hair_back.png">
+    <img class="layer coat-l" data-group="cloak" src="layers/cloak_tail/coat_tail_l.png"><img class="layer coat-r" data-group="cloak" src="layers/cloak_tail/coat_tail_r.png">
+    <img class="layer torso" data-group="body" src="layers/body_arms/torso_base.png"><img class="layer neck" data-group="body" src="layers/body_arms/neck_base.png">
+    <img class="layer upper-l" data-group="arms" src="layers/body_arms/upper_arm_l.png"><img class="layer upper-r" data-group="arms" src="layers/body_arms/upper_arm_r.png"><img class="layer guard-l" data-group="arms" src="layers/body_arms/forearm_guard_l.png"><img class="layer guard-r" data-group="arms" src="layers/body_arms/forearm_guard_r.png"><img class="layer glove-l" data-group="arms" src="layers/body_arms/glove_l.png"><img class="layer glove-r" data-group="arms" src="layers/body_arms/glove_r.png">
+    <img class="layer face" data-group="head" src="layers/face/face_base.png">
+    <img class="layer eye-white-l" data-group="face" src="layers/face/features/eye_white_l.png"><img class="layer eye-white-r" data-group="face" src="layers/face/features/eye_white_r.png"><img class="layer iris-l" data-group="face" src="layers/face/features/iris_l.png"><img class="layer iris-r" data-group="face" src="layers/face/features/iris_r.png"><img class="layer lid-l" data-group="face" src="layers/face/features/upper_lid_l.png"><img class="layer lid-r" data-group="face" src="layers/face/features/upper_lid_r.png"><img class="layer brow-l" data-group="face" src="layers/face/features/eyebrow_l.png"><img class="layer brow-r" data-group="face" src="layers/face/features/eyebrow_r.png"><img class="layer mouth" data-group="face" src="layers/face/features/mouth_closed.png">
+    <img class="layer ear-ol" data-group="head" src="layers/hair_ears/ear_outer_l.png"><img class="layer ear-il" data-group="head" src="layers/hair_ears/ear_inner_l.png"><img class="layer ear-or" data-group="head" src="layers/hair_ears/ear_outer_r.png"><img class="layer ear-ir" data-group="head" src="layers/hair_ears/ear_inner_r.png"><img class="layer hair-front" data-group="head" src="layers/hair_ears/hair_front.png">
+    <img class="layer shoulder-bl" data-group="armor" src="layers/armor_fittings/shoulder_base_l.png"><img class="layer shoulder-ol" data-group="armor" src="layers/armor_fittings/shoulder_outer_l.png"><img class="layer shoulder-r" data-group="armor" src="layers/armor_fittings/shoulder_plate_r.png"><img class="layer straps" data-group="armor" src="layers/armor_fittings/chest_straps.png"><img class="layer metal" data-group="armor" src="layers/armor_fittings/chest_metal_parts.png"><img class="layer belt" data-group="armor" src="layers/armor_fittings/waist_belt.png"><img class="layer hip-l" data-group="armor" src="layers/armor_fittings/hip_straps_l.png"><img class="layer hip-r" data-group="armor" src="layers/armor_fittings/hip_straps_r.png">
+    <img class="layer cloak-front" data-group="cloak" src="layers/cloak_tail/cloak_front.png">
+    <img class="master" src="wulfgard-halfbody-master-v1.png">
+  </div></main>
+  <aside><h1>图层组装验证</h1><p>检查各批独立素材能否在统一坐标中还原母版。黄色对照按钮会叠加原始母版。</p><div class="actions"><button id="compare">开启母版对照</button><button id="all" class="active">显示全部图层</button></div><div id="groups"></div><div class="verdict">当前为坐标校准稿，不是 Live2D 绑定结果。接缝、比例与遮挡在这里修正后，才进入网格和参数制作。</div></aside>
+  <script>
+    const stage=document.querySelector('#stage'),buttons=document.querySelector('#groups');
+    document.querySelector('#compare').onclick=e=>{stage.classList.toggle('compare');e.currentTarget.classList.toggle('active');e.currentTarget.textContent=stage.classList.contains('compare')?'关闭母版对照':'开启母版对照'};
+    const names={tail:'尾巴',cloak:'披风与衣摆',body:'躯干',arms:'手臂与手套',head:'头部、头发与狼耳',face:'五官',armor:'肩甲与配件'};
+    Object.entries(names).forEach(([key,label])=>{const wrap=document.createElement('div');wrap.className='group';wrap.innerHTML=`<label><span>${label}</span><input type="checkbox" checked></label><small>${document.querySelectorAll(`[data-group="${key}"]`).length} 个图层</small>`;wrap.querySelector('input').onchange=e=>document.querySelectorAll(`[data-group="${key}"]`).forEach(x=>x.hidden=!e.target.checked);buttons.append(wrap)});
+    document.querySelector('#all').onclick=e=>{document.querySelectorAll('.group input').forEach(x=>{x.checked=true;x.dispatchEvent(new Event('change'))});e.currentTarget.classList.add('active')};
+  </script>
+</body>
+</html>

@@ -1,0 +1,20 @@
+{
+  "canvas": { "width": 1024, "height": 1536 },
+  "groups": [
+    { "name": "tail", "order": 10, "parameters": ["ParamTailX", "ParamTailY", "ParamBodyAngleX"] },
+    { "name": "cloakRear", "order": 20, "parameters": ["ParamBodyAngleX", "ParamBodyAngleY", "ParamBreath"] },
+    { "name": "hairBack", "order": 30, "parameters": ["ParamAngleX", "ParamAngleY", "ParamHairPhysics"] },
+    { "name": "body", "order": 40, "parameters": ["ParamBodyAngleX", "ParamBodyAngleY", "ParamBreath"] },
+    { "name": "arms", "order": 50, "parameters": ["ParamArmL", "ParamArmR"] },
+    { "name": "head", "order": 60, "parameters": ["ParamAngleX", "ParamAngleY", "ParamAngleZ"] },
+    { "name": "faceFeatures", "order": 70, "parameters": ["ParamEyeLOpen", "ParamEyeROpen", "ParamEyeBallX", "ParamEyeBallY", "ParamBrowLY", "ParamBrowRY", "ParamMouthOpenY"] },
+    { "name": "hairFrontEars", "order": 80, "parameters": ["ParamAngleX", "ParamAngleY", "ParamEarL", "ParamEarR", "ParamHairPhysics"] },
+    { "name": "armorFittings", "order": 90, "parameters": ["ParamBodyAngleX", "ParamBreath"] },
+    { "name": "cloakFront", "order": 100, "parameters": ["ParamBodyAngleX", "ParamCloakPhysics"] }
+  ],
+  "upgradeSlots": {
+    "lv03": ["wrist_terminal", "chest_circuit_01"],
+    "lv05": ["shoulder_armor_upgrade", "achievement_badge", "cloak_edge_upgrade", "chest_circuit_02"],
+    "lv10": ["cloak_clasp", "waist_module", "circuit_route_complete", "status_halo"]
+  }
+}

@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+  <meta name="theme-color" content="#eef0ec">
+  <title>序升 · 狼卫微动态原型</title>
+  <style>
+    *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+    html,body{margin:0;min-height:100%;background:#0f110f;overflow:hidden}
+    body{display:grid;place-items:center;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC",sans-serif}
+    .prototype{--px:0px;--py:0px;position:relative;width:min(100vw,calc(100svh * .46258));height:min(100svh,calc(100vw / .46258));overflow:hidden;background:#eef0ec;isolation:isolate;touch-action:none}
+    .plate{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
+    .contours{position:absolute;inset:-3%;z-index:1;background:radial-gradient(circle at 75% 28%,rgba(223,255,0,.07),transparent 22%);transform:translate(calc(var(--px)*-.18),calc(var(--py)*-.18));transition:transform .5s cubic-bezier(.16,1,.3,1);pointer-events:none}
+    .character{position:absolute;z-index:2;right:-5.5%;top:7.2%;width:91%;height:62%;transform:translate(var(--px),var(--py));transition:transform .6s cubic-bezier(.16,1,.3,1);pointer-events:none}
+    .layer{position:absolute;inset:0;width:100%;height:auto;transform-origin:52% 72%;will-change:transform,filter}
+    .body{animation:breathe 4.8s ease-in-out infinite;filter:drop-shadow(-8px 10px 10px rgba(20,24,20,.14))}
+    .head{clip-path:polygon(18% 0,82% 0,86% 29%,20% 30%);transform-origin:52% 25%;animation:head-idle 7.2s ease-in-out infinite}
+    .ear-left{clip-path:polygon(28% 0,48% 0,46% 14%,26% 15%);transform-origin:39% 12%;animation:ear-left 11s ease-in-out infinite}
+    .ear-right{clip-path:polygon(51% 0,72% 0,75% 15%,54% 14%);transform-origin:61% 12%;animation:ear-right 13.5s ease-in-out infinite}
+    .cloak{clip-path:polygon(57% 22%,100% 17%,100% 81%,67% 78%,59% 55%);transform-origin:66% 40%;animation:cloak 5.4s ease-in-out infinite}
+    .energy{position:absolute;z-index:4;right:0;top:9%;width:3px;height:44%;background:#dfff00;box-shadow:0 0 18px rgba(223,255,0,.75);transform:scaleY(0);transform-origin:bottom;opacity:0}
+    .scan{position:absolute;z-index:5;left:38%;right:4%;top:8%;height:1px;background:linear-gradient(90deg,transparent,#dfff00,transparent);opacity:0;animation:scan 6.8s ease-in-out infinite;pointer-events:none}
+    .status{position:absolute;z-index:6;right:3.6%;top:23.5%;display:flex;align-items:center;gap:6px;color:#191b19;font-size:clamp(7px,2vw,10px);letter-spacing:.08em;opacity:.72}
+    .status i{width:5px;height:5px;background:#dfff00;transform:rotate(45deg)}
+    .tap-zone{position:absolute;z-index:10;right:5.5%;top:74%;width:23%;height:10%;border:0;background:transparent;cursor:pointer}
+    .hint{position:absolute;z-index:12;left:50%;bottom:11.5%;transform:translateX(-50%) translateY(8px);padding:7px 11px;background:#111311;color:#dfff00;font-size:9px;letter-spacing:.08em;opacity:0;transition:.35s ease;pointer-events:none;white-space:nowrap}
+    .prototype.is-energized .energy{animation:charge 1.25s cubic-bezier(.16,1,.3,1)}
+    .prototype.is-energized .character{animation:acknowledge 1.15s cubic-bezier(.16,1,.3,1)}
+    .prototype.is-energized .body{filter:drop-shadow(-8px 10px 10px rgba(20,24,20,.14)) drop-shadow(0 0 7px rgba(223,255,0,.34))}
+    .prototype.is-energized .hint{opacity:1;transform:translateX(-50%) translateY(0)}
+    @keyframes breathe{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-2px) scale(1.006,1.012)}}
+    @keyframes head-idle{0%,42%,100%{transform:rotate(0) translate(0)}48%,62%{transform:rotate(-.55deg) translate(-.4px,-.5px)}}
+    @keyframes ear-left{0%,62%,100%{transform:rotate(0)}67%{transform:rotate(-2.4deg)}70%{transform:rotate(.7deg)}73%{transform:rotate(0)}}
+    @keyframes ear-right{0%,38%,100%{transform:rotate(0)}42%{transform:rotate(2.1deg)}45%{transform:rotate(-.5deg)}48%{transform:rotate(0)}}
+    @keyframes cloak{0%,100%{transform:rotate(0) translateX(0)}50%{transform:rotate(.7deg) translateX(1.5px)}}
+    @keyframes scan{0%,12%{transform:translateY(0);opacity:0}18%{opacity:.65}52%{transform:translateY(330px);opacity:.18}57%,100%{transform:translateY(330px);opacity:0}}
+    @keyframes charge{0%{transform:scaleY(0);opacity:0}18%{opacity:1}66%{transform:scaleY(1);opacity:1}100%{transform:scaleY(1);opacity:0}}
+    @keyframes acknowledge{0%,100%{filter:none}38%{transform:translate(var(--px),calc(var(--py) - 4px)) scale(1.012)}72%{transform:translate(var(--px),var(--py)) scale(1)}}
+    @media(prefers-reduced-motion:reduce){.layer,.scan{animation:none!important}.character,.contours{transition:none}.status:after{content:" · 减少动态"}}
+  </style>
+</head>
+<body>
+  <main class="prototype" id="prototype" aria-label="序升首页狼卫微动态立绘原型">
+    <img class="plate" src="motion-assets/home-clean-plate.png" alt="序升首页工业界面">
+    <div class="contours"></div>
+    <div class="character" aria-hidden="true">
+      <img class="layer body" src="motion-assets/wulfgard-cutout.png" alt="">
+      <img class="layer head" src="motion-assets/wulfgard-cutout.png" alt="">
+      <img class="layer ear-left" src="motion-assets/wulfgard-cutout.png" alt="">
+      <img class="layer ear-right" src="motion-assets/wulfgard-cutout.png" alt="">
+      <img class="layer cloak" src="motion-assets/wulfgard-cutout.png" alt="">
+    </div>
+    <div class="energy"></div>
+    <div class="scan"></div>
+    <div class="status"><i></i><span>LIVE / 待命中</span></div>
+    <button class="tap-zone" id="start" aria-label="演示完成任务后的角色反馈"></button>
+    <div class="hint">ACTION SYNCED · +40 XP</div>
+  </main>
+  <script>
+    const root=document.querySelector('#prototype');
+    const update=(x,y)=>{const r=root.getBoundingClientRect();root.style.setProperty('--px',`${((x-r.left)/r.width-.5)*5}px`);root.style.setProperty('--py',`${((y-r.top)/r.height-.5)*3}px`)};
+    root.addEventListener('pointermove',e=>update(e.clientX,e.clientY));
+    root.addEventListener('pointerleave',()=>{root.style.setProperty('--px','0px');root.style.setProperty('--py','0px')});
+    document.querySelector('#start').addEventListener('click',()=>{root.classList.remove('is-energized');void root.offsetWidth;root.classList.add('is-energized');setTimeout(()=>root.classList.remove('is-energized'),1800)});
+  </script>
+</body>
+</html>
