@@ -380,3 +380,15 @@ html.poster-mode .home-sync-gauge {
     left: 56%;
   }
 }
+
+.sync-box{margin-top:14px;padding:14px;border:1px solid rgba(232,243,0,.25);border-radius:10px;background:rgba(10,14,20,.55)}
+.sync-head{font-size:13px;letter-spacing:.06em;color:#e8f300;margin-bottom:8px;font-weight:700}
+.sync-input{width:100%;box-sizing:border-box;padding:10px 12px;background:rgba(0,0,0,.4);border:1px solid rgba(255,255,255,.15);border-radius:8px;color:#eaf2ff;font-size:14px;margin-bottom:10px}
+.sync-input::placeholder{color:rgba(234,242,255,.4)}
+.sync-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.sync-actions .backup-button{flex:0 0 auto}
+.cloud-sync-status{font-size:12px;letter-spacing:.04em;color:rgba(234,242,255,.55)}
+.cloud-sync-status.is-synced{color:#7CFFB2}
+.cloud-sync-status.is-syncing{color:#e8f300}
+.cloud-sync-status.is-offline,.cloud-sync-status.is-error{color:#ff7a7a}
+.cloud-sync-status.is-off{color:rgba(234,242,255,.4)}

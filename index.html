@@ -186,6 +186,15 @@
           <button class="backup-button" id="export-data">导出数据备份</button>
           <button class="backup-button" id="import-data">导入数据备份</button>
           <input type="file" id="import-file" accept="application/json" hidden>
+          <div class="sync-box">
+            <div class="sync-head">云同步 · 多端实时共享</div>
+            <input id="sync-code-input" class="sync-input" type="text" autocomplete="off" placeholder="设置同步码，多端输入同一码即共享" maxlength="40">
+            <div class="sync-actions">
+              <button class="backup-button" id="sync-enable">启用同步</button>
+              <button class="backup-button" id="sync-disable" hidden>断开</button>
+              <span id="cloud-sync-status" class="cloud-sync-status is-off">未启用云同步</span>
+            </div>
+          </div>
           <button class="report-button" id="monthly-report"><span>生成本月成长报告</span><small>月度结算将在后续版本完善</small></button>
           <button class="reset-button" id="reset-data">重置演示数据</button>
         </div>
