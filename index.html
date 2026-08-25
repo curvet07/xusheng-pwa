@@ -11,7 +11,7 @@
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="apple-touch-icon" href="icons/icon-512.png">
   <link rel="stylesheet" href="styles.css?v=27">
-  <link rel="stylesheet" href="refinements.css?v=34">
+  <link rel="stylesheet" href="refinements.css?v=35">
   <title>序升 · 个人生活工作台</title>
   <script>
     if (location.search.includes('desktop=1')) {
@@ -63,6 +63,7 @@
             <div class="character-scan" aria-hidden="true"></div>
             <div class="home-sync-gauge"><span>PERSONAL PROGRESS</span><strong id="today-percent">0%</strong><i><b id="home-sync-fill"></b></i></div>
             <div class="character-level"><small>LV.</small><strong id="level-value">01</strong><i><b id="core-progress"></b></i><span id="xp-value">0 / 300 XP</span></div>
+            <img class="home-character-photo" src="assets/characters/home-standing-cutout-v2.png?v=3" alt="" draggable="false">
             <div class="character-rig" aria-hidden="true">
               <img class="character-layer character-full-body" src="assets/live2d/body_full_v3.png?v=2" alt="" draggable="false">
               <img class="character-layer" src="assets/live2d/body_master_aligned.png" alt="" draggable="false">
@@ -81,6 +82,7 @@
           </div>
 
           <button class="home-action-panel boss-card-home" id="home-boss-entry" type="button" aria-label="查看当前讨伐">
+            <span class="home-boss-core" aria-hidden="true"><img src="assets/characters/fat-core-reference-v1.png" alt=""></span>
             <span class="boss-entry-copy">
               <small>当前讨伐 / BODY RECOMPOSITION</small>
               <strong>脂域核心 · 15</strong>
@@ -169,8 +171,10 @@
             <h1 id="profile-title">我的角色</h1>
             <button class="title-chip" id="title-chip">初醒者</button>
           </header>
-          <div class="profile-character-rig" aria-hidden="true">
-            <img class="profile-character-integrated" src="assets/live2d/profile_character_integrated_v2.png" alt="" draggable="false">
+          <div class="profile-character-rig" aria-label="序升者待机动态形象">
+            <video class="profile-character-video" id="profile-character-video" muted loop playsinline preload="metadata" poster="assets/characters/profile-seated-poster-v1.png">
+              <source src="assets/characters/profile-idle-v1.mp4" type="video/mp4">
+            </video>
           </div>
           <div class="profile-attribute-hud" id="profile-attributes" aria-label="角色四维属性"></div>
           <div class="profile-level"><strong id="profile-level">LV.01</strong><span id="profile-total-xp">累计 0 XP</span></div>
@@ -255,7 +259,7 @@
 
   <div class="xp-toast" id="xp-toast" role="status" aria-live="polite"></div>
   <div class="level-up" id="level-up" aria-hidden="true"><div><span>LEVEL UP</span><strong id="new-level">02</strong><p>新的角色阶段已解锁</p></div></div>
-  <script src="app.js?v=21"></script>
+  <script src="app.js?v=22"></script>
   <script>setTimeout(()=>document.querySelector('#boot')?.classList.add('is-hidden'),2500)</script>
 </body>
 </html>
