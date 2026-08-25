@@ -582,6 +582,52 @@ html.poster-mode .home-sync-gauge {
   .profile-character-rig { background:url("assets/characters/profile-seated-poster-v1.png") center bottom/contain no-repeat; }
 }
 
+/* iOS Safari / installed PWA viewport stabilization.
+   Keep the approved composition identical across browser chrome states; only
+   the safe-area offsets and the available stage height are allowed to vary. */
+:root { --safe-top:env(safe-area-inset-top,0px); }
+
+.home-poster {
+  height:calc(100dvh - 74px - var(--safe-bottom));
+  min-height:0;
+}
+.home-poster .home-character-photo {
+  left:10%;
+  top:1%;
+  width:110%;
+  height:96%;
+}
+.home-status-copy { top:20%; }
+.home-poster .character-level { top:36%; }
+
+.page-archive-system .topbar {
+  height:calc(72px + var(--safe-top));
+}
+.page-archive-system main {
+  padding-top:calc(72px + var(--safe-top));
+}
+.profile-character-stage {
+  height:calc(100dvh - (72px + var(--safe-top)) - (74px + var(--safe-bottom)));
+}
+.profile-character-rig {
+  top:78px;
+  width:min(105vw,440px);
+  height:calc(100% - 106px);
+}
+.profile-attribute-node.attr-strength { top:31%; }
+.profile-attribute-node.attr-vitality { top:34%; }
+.profile-attribute-node.attr-wisdom { top:64%; }
+.profile-attribute-node.attr-charm { top:68%; }
+
+@media (display-mode:standalone) {
+  html,body,.app-shell { min-height:100dvh; }
+}
+
+@media (max-height:700px) {
+  .home-status-copy { top:19%; }
+  .home-poster .character-level { top:35%; }
+}
+
 .sync-box{margin-top:14px;padding:14px;border:1px solid rgba(232,243,0,.25);border-radius:10px;background:rgba(10,14,20,.55)}
 .sync-head{font-size:13px;letter-spacing:.06em;color:#e8f300;margin-bottom:8px;font-weight:700}
 .sync-input{width:100%;box-sizing:border-box;padding:10px 12px;background:rgba(0,0,0,.4);border:1px solid rgba(255,255,255,.15);border-radius:8px;color:#eaf2ff;font-size:14px;margin-bottom:10px}
