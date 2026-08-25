@@ -1,4 +1,4 @@
-const CACHE='xusheng-v33';
+const CACHE='xusheng-v34';
 const ASSETS=['./','./index.html','./styles.css','./refinements.css','./app.js','./manifest.webmanifest','./icons/icon.svg','./assets/characters/home-standing-cutout-v2.png','./assets/characters/fat-core-reference-v1.png','./assets/characters/profile-seated-poster-v1.png','./assets/live2d/body_master_aligned.png','./assets/live2d/profile_character_integrated_v2.png','./assets/live2d/neck_body_clean_v2.png','./assets/live2d/cranium_earless_aligned.png','./assets/live2d/cranium_earless_refined_v2.png','./assets/live2d/cranium_halfblink_refined_v1.png','./assets/live2d/cranium_closed_refined_v1.png','./assets/live2d/wolf_ear_left_aligned.png','./assets/live2d/wolf_ear_right_aligned.png','./assets/live2d/eyes_halfblink_patch.png','./assets/live2d/eyes_closed_patch.png','./assets/live2d/collar_foreground_aligned.png'];
 
 self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(ASSETS)).then(()=>self.skipWaiting())));

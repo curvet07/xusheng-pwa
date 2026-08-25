@@ -592,10 +592,10 @@ html.poster-mode .home-sync-gauge {
   min-height:0;
 }
 .home-poster .home-character-photo {
-  left:-7%;
+  left:-12%;
   top:var(--safe-top);
-  width:158%;
-  height:122%;
+  width:170%;
+  height:128%;
   object-position:52% 0;
   filter:saturate(.99) contrast(1.065) drop-shadow(-12px 20px 20px rgba(17,18,20,.24));
 }
@@ -636,9 +636,9 @@ html.poster-mode .home-sync-gauge {
 
 @media (max-height:700px) {
   .home-poster .home-character-photo {
-    left:-5%;
-    width:150%;
-    height:118%;
+    left:-9%;
+    width:160%;
+    height:123%;
   }
   .home-sync-gauge { left:38%; }
   .home-status-copy { top:19%; }
