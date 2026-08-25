@@ -11,7 +11,7 @@
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="apple-touch-icon" href="icons/icon-512.png">
   <link rel="stylesheet" href="styles.css?v=27">
-  <link rel="stylesheet" href="refinements.css?v=37">
+  <link rel="stylesheet" href="refinements.css?v=38">
   <title>序升 · 个人生活工作台</title>
   <script>
     if (location.search.includes('desktop=1')) {
@@ -63,7 +63,9 @@
             <div class="character-scan" aria-hidden="true"></div>
             <div class="home-sync-gauge"><span>PERSONAL PROGRESS</span><strong id="today-percent">0%</strong><i><b id="home-sync-fill"></b></i></div>
             <div class="character-level"><small>LV.</small><strong id="level-value">01</strong><i><b id="core-progress"></b></i><span id="xp-value">0 / 300 XP</span></div>
-            <img class="home-character-photo" src="assets/characters/home-standing-cutout-v2.png?v=3" alt="" draggable="false">
+            <video class="home-character-photo home-character-video" id="home-character-video" muted loop playsinline autoplay preload="metadata" poster="assets/characters/home-standing-cutout-v2.png?v=3" aria-hidden="true">
+              <source src="assets/characters/home-idle-v1.mp4" type="video/mp4">
+            </video>
             <div class="character-rig" aria-hidden="true">
               <img class="character-layer character-full-body" src="assets/live2d/body_full_v3.png?v=2" alt="" draggable="false">
               <img class="character-layer" src="assets/live2d/body_master_aligned.png" alt="" draggable="false">
@@ -259,7 +261,7 @@
 
   <div class="xp-toast" id="xp-toast" role="status" aria-live="polite"></div>
   <div class="level-up" id="level-up" aria-hidden="true"><div><span>LEVEL UP</span><strong id="new-level">02</strong><p>新的角色阶段已解锁</p></div></div>
-  <script src="app.js?v=22"></script>
+  <script src="app.js?v=23"></script>
   <script>setTimeout(()=>document.querySelector('#boot')?.classList.add('is-hidden'),2500)</script>
 </body>
 </html>
