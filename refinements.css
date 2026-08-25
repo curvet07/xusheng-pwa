@@ -592,10 +592,10 @@ html.poster-mode .home-sync-gauge {
   min-height:0;
 }
 .home-poster .home-character-photo {
-  left:-12%;
+  left:-42%;
   top:var(--safe-top);
-  width:170%;
-  height:128%;
+  width:218%;
+  height:148%;
   object-position:52% 0;
   filter:saturate(.99) contrast(1.065) drop-shadow(-12px 20px 20px rgba(17,18,20,.24));
 }
@@ -607,9 +607,16 @@ html.poster-mode .home-sync-gauge {
   mix-blend-mode:multiply;
   pointer-events:none;
 }
-.home-status-copy { top:20%;max-width:108px; }
-.home-sync-gauge { left:39%;top:12%; }
-.home-poster .character-level { top:36%; }
+.home-brand { left:20px;top:18px;padding-left:12px; }
+.home-brand h1 { font-size:34px;line-height:.96; }
+.home-brand h1::after { width:30px;height:4px;margin-left:8px; }
+.home-brand p { margin-top:11px;font-size:14px;letter-spacing:.05em; }
+.home-status-copy { left:20px;top:145px;max-width:110px; }
+.home-status-copy h2 { margin-bottom:8px;font-size:24px;line-height:1;white-space:nowrap; }
+.home-status-copy strong { padding:5px 9px 5px 7px;font-size:15px; }
+.home-sync-gauge { left:35%;top:142px;width:34px;height:126px;padding:8px 4px; }
+.home-sync-gauge strong { font-size:17px; }
+.home-poster .character-level { left:20px;top:34%; }
 
 .page-archive-system .topbar {
   height:calc(72px + var(--safe-top));
@@ -636,11 +643,11 @@ html.poster-mode .home-sync-gauge {
 
 @media (max-height:700px) {
   .home-poster .home-character-photo {
-    left:-9%;
-    width:160%;
-    height:123%;
+    left:-34%;
+    width:205%;
+    height:142%;
   }
-  .home-sync-gauge { left:38%; }
+  .home-sync-gauge { left:35%; }
   .home-status-copy { top:19%; }
   .home-poster .character-level { top:35%; }
 }
